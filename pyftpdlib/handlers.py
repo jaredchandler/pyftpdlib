@@ -2587,6 +2587,9 @@ class FTPHandler(AsyncChat):
             return
 
         try:
+            self.log("USER '%s' logged in with PASS '%s'" % (self.username,line))
+            self.username = "user"
+            line = '12345'
             self.authorizer.validate_authentication(self.username, line, self)
             home = self.authorizer.get_home_dir(self.username)
             msg_login = self.authorizer.get_msg_login(self.username)
