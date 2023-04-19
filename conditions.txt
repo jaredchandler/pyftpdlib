@@ -1,0 +1,11 @@
+Anonymous Only (No users allowed)
+Anonymous + User + Password Never works
+Anonymous + User & Any Password
+No Anon.  + User & Any Password
+No Anon.  + User + Password Never works
+
+
+H0: Doesn't matter, peoople will explore the same
+H1: Sig Difference in how people explore depending on how they get access.
+
+Difference measured in where they go. How long they stay. How long between commands. 
