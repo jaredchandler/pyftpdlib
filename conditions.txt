@@ -9,3 +9,30 @@ H0: Doesn't matter, peoople will explore the same
 H1: Sig Difference in how people explore depending on how they get access.
 
 Difference measured in where they go. How long they stay. How long between commands. 
+
+
+openssl req -new -newkey rsa:4096 -nodes -keyout snakeoil.key -out snakeoil.csr
+openssl x509 -req -sha256 -days 365 -in snakeoil.csr -signkey snakeoil.key -out snakeoil.pem
+
+
+cat snakeoil.key snakeout.pem > demo/snakeoil.key
+
+pip3 install pyOpenSSL
+
+import logging
+
+from pyftpdlib.authorizers import DummyAuthorizer
+from pyftpdlib.handlers import FTPHandler, TLS_FTPHandler
+from pyftpdlib.servers import FTPServer
+
+authorizer = DummyAuthorizer()
+authorizer.add_user("user", "12345", "/var/ftp/", perm="elr")
+#handler = FTPHandler
+handler = TLS_FTPHandler
+handler.certfile = 'demo/snakeoil.pem'
+
+handler.authorizer = authorizer
+#handler.log_prefix='%(asctime)s%(remote_ip)s:%(remote_port)s-[%(username)s]'
+logging.basicConfig(filename="ftp.log2",level=logging.DEBUG,format='%(asctime)s %(message)s')#,log_prefix='[%(levelname)1.1s %(asctime)s%(remote_ip)s:%(remote_port)s-[%(username)s]')
+server = FTPServer(("IP", 21), handler)
+server.serve_forever()
